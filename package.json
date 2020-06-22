@@ -25,7 +25,9 @@
   "author": "YourNameOrOrganization",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.4"
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^3.0.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@types/jest": "^26.0.0",
