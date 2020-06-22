@@ -1,10 +1,15 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import { wait } from './wait'
+import { getResults } from './getResults'
 
 async function run(): Promise<void> {
   try {
     const ms: string = core.getInput('milliseconds')
     core.debug(`Waiting ${ms} milliseconds ...`)
+
+    const testngResults: string = core.getInput('testng-results')
+    const results = await getResults(testngResults)
+    core.debug(results)
 
     core.debug(new Date().toTimeString())
     await wait(parseInt(ms, 10))

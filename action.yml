@@ -6,6 +6,10 @@ inputs:
     description: 'milliseconds to wait'
     default: '1000'
     required: true
+  testng-results:
+    description: 'Path relative to the root for the TestNG results'
+    default: 'testng-results.xml'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
