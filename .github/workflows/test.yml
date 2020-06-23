@@ -12,12 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - run: npm install
+    - run: npm run all
       with:
         milliseconds: 1000
         testng-results: __tests__/testng-results.xml
-    - run: |
-        npm install
-        npm run all
+    # - run: |
+    #     npm install
+    #     npm run all
         
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
