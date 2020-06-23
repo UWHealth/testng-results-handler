@@ -519,8 +519,11 @@ function getResults(resultsPath) {
         return new Promise(resolve => {
             core.debug(`Results file path: ${resultsPath}`);
             fs_1.default.readFile(path_1.default.join(__dirname, '..', resultsPath), (err, data) => {
-                if (err)
+                if (err) {
+                    const badPath = path_1.default.join(__dirname, '..', resultsPath);
+                    console.error(`Observed path: ${badPath}`);
                     throw err;
+                }
                 const xml = data.toString();
                 const result = xml_js_1.default.xml2js(xml, {
                     compact: true,

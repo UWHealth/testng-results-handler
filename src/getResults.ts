@@ -8,8 +8,11 @@ export async function getResults(resultsPath: string): Promise<ElementCompact> {
     core.debug(`Results file path: ${resultsPath}`)
 
     fs.readFile(path.join(__dirname, '..', resultsPath), (err, data) => {
-      if (err) throw err
-
+      if (err) {
+        const badPath = path.join(__dirname, '..', resultsPath)
+        console.error(`Observed path: ${badPath}`)
+        throw err
+      }
       const xml: string = data.toString()
       const result: ElementCompact = convert.xml2js(xml, {
         compact: true,
