@@ -9,7 +9,7 @@ async function run(): Promise<void> {
 
     const testngResults: string = core.getInput('testng-results')
     const results = await getResults(testngResults)
-    core.debug(results)
+    core.debug(JSON.stringify(results))
 
     core.debug(new Date().toTimeString())
     await wait(parseInt(ms, 10))

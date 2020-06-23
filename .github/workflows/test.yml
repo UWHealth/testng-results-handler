@@ -15,6 +15,10 @@ jobs:
     - run: |
         npm install
         npm run all
+      with:
+        milliseconds: 1000
+        testng-results: __tests__/testng-results.xml
+        
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:

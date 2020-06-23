@@ -129,7 +129,7 @@ function run() {
             core.debug(`Waiting ${ms} milliseconds ...`);
             const testngResults = core.getInput('testng-results');
             const results = yield getResults_1.getResults(testngResults);
-            core.debug(results);
+            core.debug(JSON.stringify(results));
             core.debug(new Date().toTimeString());
             yield wait_1.wait(parseInt(ms, 10));
             core.debug(new Date().toTimeString());
@@ -526,8 +526,8 @@ function getResults(resultsPath) {
                     compact: true,
                     trim: true
                 });
-                console.debug(result);
-                resolve('Done');
+                console.debug(result['testng-results']['_attributes']);
+                resolve(result['testng-results']['_attributes']);
             });
         });
     });

@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import convert, { ElementCompact } from 'xml-js'
 
-export async function getResults(resultsPath: string): Promise<string> {
+export async function getResults(resultsPath: string): Promise<ElementCompact> {
   return new Promise(resolve => {
     core.debug(`Results file path: ${resultsPath}`)
 
@@ -16,9 +16,9 @@ export async function getResults(resultsPath: string): Promise<string> {
         trim: true
       })
 
-      console.debug(result)
+      console.debug(result['testng-results']['_attributes'])
 
-      resolve('Done')
+      resolve(result['testng-results']['_attributes'])
     })
   })
 }
