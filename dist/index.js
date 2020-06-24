@@ -127,7 +127,7 @@ function run() {
         try {
             const ms = core.getInput('milliseconds');
             core.debug(`Waiting ${ms} milliseconds ...`);
-            const testngResults = core.getInput('testng-results');
+            const testngResults = core.getInput('testng_results');
             const results = yield getResults_1.getResults(testngResults);
             core.debug(JSON.stringify(results));
             core.debug(new Date().toTimeString());

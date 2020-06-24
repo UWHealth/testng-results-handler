@@ -20,7 +20,7 @@ test('wait 500 ms', async () => {
 test('test runs', () => {
   // ENV for local Jest
   process.env['INPUT_MILLISECONDS'] = '1000'
-  process.env['INPUT_TESTNG-RESULTS'] = '__tests__/testng-results.xml'
+  process.env['INPUT_TESTNG_RESULTS'] = '__tests__/testng-results.xml'
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
   const options: cp.ExecSyncOptions = {
     env: process.env
