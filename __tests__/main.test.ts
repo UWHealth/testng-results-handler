@@ -25,5 +25,6 @@ test('test runs', () => {
   const options: cp.ExecSyncOptions = {
     env: process.env
   }
+  console.debug(`Test: ${JSON.stringify(options, undefined, 4)}`)
   console.log(cp.execSync(`node ${ip}`, options).toString())
 })
