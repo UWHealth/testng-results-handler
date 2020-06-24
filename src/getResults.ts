@@ -11,6 +11,9 @@ export async function getResults(resultsPath: string): Promise<ElementCompact> {
       if (err) {
         const badPath = path.join(__dirname, '..', resultsPath)
         console.error(`Observed path: ${badPath}`)
+        console.error(
+          `GetResults - error: ${JSON.stringify(process.env, undefined, 4)}`
+        )
         throw err
       }
       const xml: string = data.toString()

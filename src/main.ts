@@ -7,7 +7,6 @@ async function run(): Promise<void> {
     const ms: string = core.getInput('milliseconds')
     core.debug(`Waiting ${ms} milliseconds ...`)
 
-    console.debug(`Main: ${JSON.stringify(process.env, undefined, 4)}`)
     const testngResults: string = core.getInput('testng-results')
     const results = await getResults(testngResults)
     core.debug(JSON.stringify(results))
