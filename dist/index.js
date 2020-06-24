@@ -521,8 +521,7 @@ function getResults(resultsPath) {
             fs_1.default.readFile(path_1.default.join(__dirname, '..', resultsPath), (err, data) => {
                 if (err) {
                     const badPath = path_1.default.join(__dirname, '..', resultsPath);
-                    console.error(`Observed path: ${badPath}`);
-                    console.error(`GetResults - error: ${JSON.stringify(process.env, undefined, 4)}`);
+                    console.error(`Observed bad path: ${badPath}`);
                     throw err;
                 }
                 const xml = data.toString();
@@ -530,7 +529,7 @@ function getResults(resultsPath) {
                     compact: true,
                     trim: true
                 });
-                console.debug(result['testng-results']['_attributes']);
+                core.debug(result['testng-results']['_attributes']);
                 resolve(result['testng-results']['_attributes']);
             });
         });

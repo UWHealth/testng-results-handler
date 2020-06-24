@@ -10,10 +10,7 @@ export async function getResults(resultsPath: string): Promise<ElementCompact> {
     fs.readFile(path.join(__dirname, '..', resultsPath), (err, data) => {
       if (err) {
         const badPath = path.join(__dirname, '..', resultsPath)
-        console.error(`Observed path: ${badPath}`)
-        console.error(
-          `GetResults - error: ${JSON.stringify(process.env, undefined, 4)}`
-        )
+        console.error(`Observed bad path: ${badPath}`)
         throw err
       }
       const xml: string = data.toString()
@@ -22,7 +19,7 @@ export async function getResults(resultsPath: string): Promise<ElementCompact> {
         trim: true
       })
 
-      console.debug(result['testng-results']['_attributes'])
+      core.debug(result['testng-results']['_attributes'])
 
       resolve(result['testng-results']['_attributes'])
     })
