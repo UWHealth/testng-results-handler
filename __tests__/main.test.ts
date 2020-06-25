@@ -21,6 +21,9 @@ test('test runs', () => {
   // ENV for local Jest
   process.env['INPUT_MILLISECONDS'] = '1000'
   process.env['INPUT_TESTNG_RESULTS'] = '__tests__/testng-results.xml'
+  process.env['GITHUB_REPOSITORY'] = 'UWHealth/proxy-patient.uwhealth.org'
+  process.env['GITHUB_SHA'] = '7a7d01ee69518b95c991760e574ed3881949dd30'
+  process.env['LOCAL'] = 'Local Unit Test Run. '
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
   const options: cp.ExecSyncOptions = {
     env: process.env

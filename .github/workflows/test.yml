@@ -24,3 +24,4 @@ jobs:
       with:
         milliseconds: 1000
         testng_results: __tests__/testng-results.xml
+        token: ${{ secrets.GITHUB_TOKEN }}

@@ -2,6 +2,9 @@ name: 'Handle the results of TestNG'
 description: 'Read the XML results from TestNG, set some informational statuses and archive the results.'
 author: 'UWHealth'
 inputs:
+  token:
+    required: true
+    description: The token provided by GitHub actions via secrets.GITHUB_TOKEN
   milliseconds:
     description: 'milliseconds to wait'
     default: '1000'
