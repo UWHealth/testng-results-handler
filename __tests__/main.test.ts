@@ -31,7 +31,8 @@ test('test runs', () => {
   }
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
   const options: cp.ExecSyncOptions = {
-    env: process.env
+    env: process.env,
+    stdio: 'inherit'
   }
   try {
     console.log(cp.execSync(`node ${ip}`, options).toString())
