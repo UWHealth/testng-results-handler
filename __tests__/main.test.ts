@@ -36,7 +36,8 @@ test('test runs', () => {
   try {
     console.log(cp.execSync(`node ${ip}`, options).toString())
   } catch (err) {
-    core.error(err)
-    throw new Error(`test runs unit test failed.`)
+    core.error(err.message)
+    core.error(err.stack)
+    throw err
   }
 })
