@@ -19,7 +19,7 @@ async function run(): Promise<void> {
       } + Fail: ${results.failed} + Ignore: ${results.ignored} + Skip: ${
         results.skipped
       } = Total: ${results.total}`,
-      context: 'End-to-End Test Results.'
+      context: `${process.env.TEST || ''}End-to-End Test Results.`
     }
 
     const result = await setStatus(commitStatus)

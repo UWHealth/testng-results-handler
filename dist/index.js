@@ -1138,7 +1138,7 @@ function run() {
                 state: status_1.StatusState.GOOD,
                 target_url: 'https://saucelabs.com',
                 description: `${process.env.LOCAL || ''} Pass: ${results.passed} + Fail: ${results.failed} + Ignore: ${results.ignored} + Skip: ${results.skipped} = Total: ${results.total}`,
-                context: 'End-to-End Test Results.'
+                context: `${process.env.TEST || ''}End-to-End Test Results.`
             };
             const result = yield status_1.setStatus(commitStatus);
             core.debug(`Created status: ${result}`);
