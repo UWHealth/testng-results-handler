@@ -30,8 +30,6 @@ test('test runs', () => {
     process.env['GITHUB_REPOSITORY'] = 'UWHealth/proxy-patient.uwhealth.org'
     process.env['GITHUB_SHA'] = '7a7d01ee69518b95c991760e574ed3881949dd30'
     process.env['LOCAL'] = 'Local Unit Test Run: '
-  } else {
-    options.stdio = 'inherit'
   }
   options.env = process.env
   try {
