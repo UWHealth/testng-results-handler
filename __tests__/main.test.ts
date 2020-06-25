@@ -19,6 +19,8 @@ test('wait 500 ms', async () => {
 
 // shows how the runner will run a javascript action with env / stdout protocol
 test('test runs', () => {
+  const ip = path.join(__dirname, '..', 'lib', 'main.js')
+  const options: cp.ExecSyncOptions = {}
   // ENV for Jest
   process.env['INPUT_MILLISECONDS'] = '1000'
   process.env['INPUT_TESTNG_RESULTS'] = '__tests__/testng-results.xml'
@@ -29,13 +31,9 @@ test('test runs', () => {
     process.env['GITHUB_SHA'] = '7a7d01ee69518b95c991760e574ed3881949dd30'
     process.env['LOCAL'] = 'Local Unit Test Run: '
   } else {
-    process.env['INPUT_TOKEN'] = core.getInput('token')
+    options.stdio = 'inherit'
   }
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecSyncOptions = {
-    env: process.env,
-    stdio: 'inherit'
-  }
+  options.env = process.env
   try {
     console.log(cp.execSync(`node ${ip}`, options).toString())
   } catch (err) {
