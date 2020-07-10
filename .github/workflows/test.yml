@@ -24,6 +24,10 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ./
       with:
-        milliseconds: 1000
         testng_results: __tests__/testng-results.xml
         token: ${{ secrets.GITHUB_TOKEN }}
+        status_url: https://app.saucelabs.com/dashboard/builds
+    - uses: actions/upload-artifact@v2
+      with:
+        name: testng-results-xml
+        path: ${{ github.workspace }}/__tests__/testng-results.xml

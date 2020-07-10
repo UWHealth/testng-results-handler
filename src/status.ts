@@ -24,6 +24,7 @@ export async function setStatus(status: any): Promise<boolean> {
     try {
       const myToken = core.getInput('token')
       const octokit = github.getOctokit(myToken)
+      core.debug(status)
       octokit.repos
         .createCommitStatus(status)
         .then(response =>
