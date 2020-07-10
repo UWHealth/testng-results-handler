@@ -1129,15 +1129,24 @@ const status_1 = __webpack_require__(895);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const testngResults = core.getInput('testng_results');
-            const results = yield results_1.getResults(testngResults);
+            const testngResultsPath = core.getInput('testng_results');
+            const results = yield results_1.getResults(testngResultsPath);
+            const commitStatusState = results.success
+                ? status_1.StatusState.GOOD
+                : status_1.StatusState.FAIL;
+            let sha = github.context.sha;
+            if (github.context.eventName === 'pull_request') {
+                const PullRequestPayload = github.context
+                    .payload;
+                sha = PullRequestPayload.pull_request.head.sha;
+            }
             const commitStatus = {
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
-                sha: github.context.sha,
-                state: status_1.StatusState.GOOD,
-                target_url: 'https://saucelabs.com',
-                description: `${process.env.LOCAL || ''} Pass: ${results.passed} + Fail: ${results.failed} + Ignore: ${results.ignored} + Skip: ${results.skipped} = Total: ${results.total}`,
+                sha: sha,
+                state: commitStatusState,
+                target_url: core.getInput('status_url') || '',
+                description: `${process.env.LOCAL || ''}Pass: ${results.passed} + Fail: ${results.failed} + Ignore: ${results.ignored} + Skip: ${results.skipped} = Total: ${results.total}`,
                 context: `${process.env.TEST || ''}End-to-End Test Results.`
             };
             const result = yield status_1.setStatus(commitStatus);
@@ -1145,7 +1154,6 @@ function run() {
             if (!result) {
                 throw new Error(`GiHub Commit Status failed.`);
             }
-            core.setOutput('time', new Date().toTimeString());
         }
         catch (error) {
             core.error(error);
@@ -6068,12 +6076,58 @@ function getResults(resultsPath) {
                     throw err;
                 }
                 const xml = data.toString();
-                const result = xml_js_1.default.xml2js(xml, {
+                const fullResults = xml_js_1.default.xml2js(xml, {
                     compact: true,
                     trim: true
                 });
-                core.debug(result['testng-results']['_attributes']);
-                resolve(result['testng-results']['_attributes']);
+                const result = fullResults['testng-results']['_attributes'];
+                core.debug(result);
+                // validate inputs
+                function validNumber(input) {
+                    if (Number.isNaN(Number.parseInt(input))) {
+                        return 0;
+                    }
+                    return Number.parseInt(input);
+                }
+                const failedThresholdNumber = validNumber(core.getInput('failed_threshold_number'));
+                const skippedThresholdNumber = validNumber(core.getInput('skipped_threshold_number'));
+                const failedThresholdPercent = validNumber(core.getInput('failed_threshold_percent'));
+                const skippedThresholdPercent = validNumber(core.getInput('skipped_threshold_percent'));
+                // logic to determine the success
+                let successState = false;
+                let failedTestStatePasses = false;
+                let skippedTestStatePasses = false;
+                if (failedThresholdNumber +
+                    skippedThresholdNumber +
+                    failedThresholdPercent +
+                    skippedThresholdPercent >
+                    0) {
+                    if ((failedThresholdNumber > 0 &&
+                        result.failed <= failedThresholdNumber) ||
+                        (failedThresholdPercent > 0 &&
+                            (result.failed / result.total) * 100 <= failedThresholdPercent))
+                        failedTestStatePasses = true;
+                    if ((skippedThresholdNumber > 0 &&
+                        result.skipped <= skippedThresholdNumber) ||
+                        (skippedThresholdPercent > 0 &&
+                            (result.skipped / result.total) * 100 <= failedThresholdPercent))
+                        skippedTestStatePasses = true;
+                    successState = failedTestStatePasses && skippedTestStatePasses;
+                    core.debug(`successState<${successState}> = failedTestStatePasses<${failedTestStatePasses}> && skippedTestStatePasses<${skippedTestStatePasses}>`);
+                }
+                else {
+                    successState = result.failed != 0 ? false : true;
+                    core.debug(`successState<${successState}>, failed:${result.failed} `);
+                }
+                const results = {
+                    skipped: result.skipped,
+                    ignored: result.ignored,
+                    passed: result.passed,
+                    failed: result.failed,
+                    total: result.total,
+                    success: successState
+                };
+                resolve(results);
             });
         });
     });
@@ -11985,6 +12039,7 @@ function setStatus(status) {
             try {
                 const myToken = core.getInput('token');
                 const octokit = github.getOctokit(myToken);
+                core.debug(status);
                 octokit.repos
                     .createCommitStatus(status)
                     .then(response => core.debug(`GitHub Commit Status Response State: ${response.data.state}`));

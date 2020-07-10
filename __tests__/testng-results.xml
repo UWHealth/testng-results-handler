@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="22" ignored="3" total="231" passed="206">
+<testng-results skipped="0" failed="13" ignored="3" total="231" passed="206">
   <reporter-output>
   </reporter-output>
   <suite name="Test1 (62)" duration-ms="34125" started-at="2020-06-10T06:19:28Z" finished-at="2020-06-10T06:20:02Z">
