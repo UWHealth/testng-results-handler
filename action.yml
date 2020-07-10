@@ -5,14 +5,29 @@ inputs:
   token:
     required: true
     description: The token provided by GitHub actions via secrets.GITHUB_TOKEN
-  milliseconds:
-    description: 'milliseconds to wait'
-    default: '1000'
-    required: true
   testng_results:
     description: 'Path relative to the root for the TestNG results'
     default: 'testng-results.xml'
     required: true
+  status_url:
+    description: 'URL to display alongside the Github Commit Status'
+    required: false
+  skipped_threshold_number:
+    description: 'The number of skipped tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Takes presidenc over skipped_threshold_percent'
+    default: '0'
+    required: false
+  skipped_threshold_percent:
+    description: 'The percentage of skipped tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY skipped test indicates failure'
+    default: '0'
+    required: false
+  failed_threshold_number:
+    description: 'The number of failed tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY failed test indicates failure. Takes presidence over failed_threshold_percent'
+    default: '0'
+    required: false
+  failed_threshold_percent:
+    description: 'The percentage of failed tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY failed test indicates failure'
+    default: '0'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
