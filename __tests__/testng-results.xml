@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="22" ignored="3" total="231" passed="206">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Test1 (62)" duration-ms="34125" started-at="2020-06-10T06:19:28Z" finished-at="2020-06-10T06:20:02Z">
+    <groups>
+    </groups>
+    <test name="Mac Firefox Slider testing" duration-ms="34125" started-at="2020-06-10T06:19:28Z" finished-at="2020-06-10T06:20:02Z">
+      <class name="base.TestUconnectSlider">
+        <test-method status="PASS" signature="beforeClass(java.lang.String, java.lang.String)[pri:0, instance:base.TestUconnectSlider@fad74ee]" name="beforeClass" is-config="true" duration-ms="3667" started-at="2020-06-10T06:19:28Z" finished-at="2020-06-10T06:19:32Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[firefox]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[MAC]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- beforeClass -->
+        <test-method status="PASS" signature="load_url()[pri:0, instance:base.TestUconnectSlider@fad74ee]" name="load_url" is-config="true" duration-ms="813" started-at="2020-06-10T06:19:32Z" depends-on-methods="base.baseClass.beforeClass" finished-at="2020-06-10T06:19:33Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- load_url -->
+        <test-method status="PASS" signature="test_Sliderleftrightarrow()[pri:0, instance:base.TestUconnectSlider@fad74ee]" name="test_Sliderleftrightarrow" duration-ms="4568" started-at="2020-06-10T06:19:33Z" finished-at="2020-06-10T06:19:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- test_Sliderleftrightarrow -->
+        <test-method status="PASS" signature="sliderDotsLeftRight()[pri:1, instance:base.TestUconnectSlider@fad74ee]" name="sliderDotsLeftRight" duration-ms="18046" started-at="2020-06-10T06:19:37Z" finished-at="2020-06-10T06:19:55Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- sliderDotsLeftRight -->
+        <test-method status="FAIL" signature="test_sliderNewsLink()[pri:2, instance:base.TestUconnectSlider@fad74ee]" name="test_sliderNewsLink" duration-ms="2306" started-at="2020-06-10T06:19:55Z" finished-at="2020-06-10T06:19:58Z">
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[expected:<https://staging.uconnect.wisc.edu/inside-uw-health/news/2020/may/name-152990-en.news> but was:<https://staging.uconnect.wisc.edu/clinical/references/infection-control/infection-control/emerging-pathogens/coronavirus-disease-2019-covid-19/>]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: expected:<https://staging.uconnect.wisc.edu/inside-uw-health/news/2020/may/name-152990-en.news> but was:<https://staging.uconnect.wisc.edu/clinical/references/infection-control/infection-control/emerging-pathogens/coronavirus-disease-2019-covid-19/>
+              at org.testng.AssertJUnit.assertEquals(AssertJUnit.java:101)
+              at org.testng.AssertJUnit.assertEquals(AssertJUnit.java:108)
+              at base.TestUconnectSlider.test_sliderNewsLink(TestUconnectSlider.java:163)
+              at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+              at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+              at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+              at java.lang.reflect.Method.invoke(Method.java:498)
+              at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+              at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
+              at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
+              at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
+              at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+              at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+              at org.testng.TestRunner.privateRun(TestRunner.java:648)
+              at org.testng.TestRunner.run(TestRunner.java:505)
+              at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+              at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+              at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+              at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+              at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+              at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+              at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
+              at org.testng.TestNG.runSuitesSequentially(TestNG.java:1204)
+              at org.testng.TestNG.runSuitesSequentially(TestNG.java:1204)
+              at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
+              at org.testng.TestNG.runSuites(TestNG.java:1049)
+              at org.testng.TestNG.run(TestNG.java:1017)
+              at base.baseClassRunner.main(baseClassRunner.java:16)
+              ]]>
+            </full-stacktrace>
+          </exception>          <!-- java.lang.AssertionError -->
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- test_sliderNewsLink -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:base.TestUconnectSlider@fad74ee]" name="afterClass" is-config="true" duration-ms="4725" started-at="2020-06-10T06:19:58Z" finished-at="2020-06-10T06:20:02Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method>        <!-- afterClass -->
+      </class>      <!-- base.TestUconnectSlider -->
+    </test>    <!-- Mac Firefox Slider testing -->
+  </suite>  <!-- Test1 (62) -->
+  <suite name="master (2)" duration-ms="0" started-at="2020-06-10T06:24:02Z" finished-at="2020-06-10T06:24:02Z">
+    <groups>
+    </groups>
+  </suite>  <!-- master (2) -->
+</testng-results>

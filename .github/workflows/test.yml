@@ -5,19 +5,25 @@ on: # rebuild any PRs and main branch changes
     branches:
       - master
       - 'releases/*'
+      - develop
 
 jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - run: |
         npm install
         npm run all
-  test: # make sure the action works on a clean machine without building
+      env:
+        INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+  trial-run: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: ./
-      with: 
+      with:
         milliseconds: 1000
+        testng_results: __tests__/testng-results.xml
+        token: ${{ secrets.GITHUB_TOKEN }}

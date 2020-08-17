@@ -1,10 +1,18 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Handle the results of TestNG'
+description: 'Read the XML results from TestNG, set some informational statuses and archive the results.'
+author: 'UWHealth'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  token:
+    required: true
+    description: The token provided by GitHub actions via secrets.GITHUB_TOKEN
+  milliseconds:
+    description: 'milliseconds to wait'
+    default: '1000'
+    required: true
+  testng_results:
+    description: 'Path relative to the root for the TestNG results'
+    default: 'testng-results.xml'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
