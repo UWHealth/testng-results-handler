@@ -16,7 +16,7 @@ async function run(): Promise<void> {
     let sha = github.context.sha
     if (github.context.eventName === 'pull_request') {
       const PullRequestPayload = github.context
-        .payload as Webhooks.WebhookPayloadPullRequest
+        .payload as Webhooks.EventPayloads.WebhookPayloadPullRequest
       sha = PullRequestPayload.pull_request.head.sha
     }
 
@@ -28,9 +28,9 @@ async function run(): Promise<void> {
       target_url: core.getInput('status_url') || '',
       description: `${process.env.LOCAL || ''}Pass: ${results.passed} + Fail: ${
         results.failed
-      } + Ignore: ${results.ignored} + Skip: ${results.skipped} = Total: ${
+        } + Ignore: ${results.ignored} + Skip: ${results.skipped} = Total: ${
         results.total
-      }`,
+        }`,
       context: `${process.env.TEST || ''}End-to-End Test Results.`
     }
 
