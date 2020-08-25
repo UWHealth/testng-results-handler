@@ -16,7 +16,10 @@ export async function getResults(resultsPath: string): Promise<testngResults> {
   return new Promise(resolve => {
     core.debug(`Results file path: ${resultsPath}`)
 
-    fs.readFile(path.join(__dirname, '..', resultsPath), (err, data) => {
+    const workflowDir =
+      process.env.GITHUB_WORKSPACE || path.join(__dirname, '..')
+
+    fs.readFile(path.join(workflowDir, resultsPath), (err, data) => {
       if (err) {
         const badPath = path.join(__dirname, '..', resultsPath)
         console.error(`Observed bad path: ${badPath}`)
@@ -60,15 +63,15 @@ export async function getResults(resultsPath: string): Promise<testngResults> {
 
       if (
         failedThresholdNumber +
-          skippedThresholdNumber +
-          failedThresholdPercent +
-          skippedThresholdPercent >
+        skippedThresholdNumber +
+        failedThresholdPercent +
+        skippedThresholdPercent >
         0
       ) {
         if (
           (failedThresholdNumber > 0 &&
             result.failed <= failedThresholdNumber) ||
-          (failedThresholdPercent > 0 &&
+          (failedThresholdPercent >= 0 &&
             (result.failed / result.total) * 100 <= failedThresholdPercent)
         )
           failedTestStatePasses = true
@@ -76,18 +79,21 @@ export async function getResults(resultsPath: string): Promise<testngResults> {
         if (
           (skippedThresholdNumber > 0 &&
             result.skipped <= skippedThresholdNumber) ||
-          (skippedThresholdPercent > 0 &&
-            (result.skipped / result.total) * 100 <= failedThresholdPercent)
+          (skippedThresholdPercent >= 0 &&
+            (result.skipped / result.total) * 100 <= skippedThresholdPercent)
         )
           skippedTestStatePasses = true
 
         successState = failedTestStatePasses && skippedTestStatePasses
         core.debug(
+          `Skipped #:${skippedThresholdNumber}, Failed #:${failedThresholdNumber}, Skipped percent:${skippedThresholdPercent}, Failed percent:${failedThresholdPercent} `
+        )
+        core.debug(
           `successState<${successState}> = failedTestStatePasses<${failedTestStatePasses}> && skippedTestStatePasses<${skippedTestStatePasses}>`
         )
       } else {
         successState = result.failed != 0 ? false : true
-        core.debug(`successState<${successState}>, failed:${result.failed} `)
+        core.debug(`successState<${successState}>, failed:${result.failed}`)
       }
 
       const results: testngResults = {

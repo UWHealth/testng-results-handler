@@ -20,20 +20,21 @@ export interface CommitStatus {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export async function setStatus(status: any): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     try {
-      const myToken = core.getInput('token')
+      const myToken: string = core.getInput('token')
       const octokit = github.getOctokit(myToken)
       core.debug(status)
       octokit.repos
         .createCommitStatus(status)
-        .then(response =>
+        .then(response => {
           core.debug(
             `GitHub Commit Status Response State: ${response.data.state}`
           )
+          core.debug(JSON.stringify(response))
+          resolve(true)
+        }
         )
-
-      resolve(true)
     } catch (err) {
       core.error(err)
       resolve(false)
