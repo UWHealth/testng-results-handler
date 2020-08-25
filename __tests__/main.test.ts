@@ -2,7 +2,7 @@ import * as process from 'process'
 import * as cp from 'child_process'
 import * as path from 'path'
 import * as core from '@actions/core'
-import run from '../src/main'
+import { run } from '../src/main'
 
 function setInputs(): boolean {
   process.env['INPUT_SKIP_GIHUB_STATUS_UPDATE'] = 'true'
@@ -14,7 +14,6 @@ function setInputs(): boolean {
 
 // shows how the runner will run a javascript action with env / stdout protocol
 describe('Build and run Tests', () => {
-
   beforeEach(() => {
     setInputs()
   })
@@ -35,7 +34,9 @@ describe('Build and run Tests', () => {
   test('Test run console.log for expected message.', async () => {
     const debugMock = jest.spyOn(console, 'log')
     await run()
-    expect(debugMock).toHaveBeenCalledWith(`Github status with TestNG results skipped. Input(skip_gihub_status_update): true`)
+    expect(debugMock).toHaveBeenCalledWith(
+      `Github status with TestNG results skipped. Input(skip_gihub_status_update): true`
+    )
   })
 
   test('Test core debug for expected messages.', async () => {
@@ -44,7 +45,4 @@ describe('Build and run Tests', () => {
     expect(debugMock).toHaveBeenNthCalledWith(1, `Results file path: __tests__/testng-results.mock.xml`)
     expect(debugMock).toHaveBeenNthCalledWith(3, `successState<false>, failed:13`)
   })
-
-
-
 })

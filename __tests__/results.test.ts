@@ -76,9 +76,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_NUMBER'] = `${arg3}`
       process.env['INPUT_FAILED_THRESHOLD_NUMBER'] = `${arg4}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-1.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-1.mock.xml')
       expect(res.success).toBe(result1)
     }
   )
@@ -87,9 +85,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_NUMBER'] = `${arg3}`
       process.env['INPUT_FAILED_THRESHOLD_NUMBER'] = `${arg4}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-2.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-2.mock.xml')
       expect(res.success).toBe(result2)
     }
   )
@@ -99,9 +95,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_NUMBER'] = `${arg3}`
       process.env['INPUT_FAILED_THRESHOLD_NUMBER'] = `${arg4}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-3.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-3.mock.xml')
       expect(res.success).toBe(result3)
     }
   )
@@ -111,9 +105,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_NUMBER'] = `${arg3}`
       process.env['INPUT_FAILED_THRESHOLD_NUMBER'] = `${arg4}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-4.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-4.mock.xml')
       expect(res.success).toBe(result4)
     }
   )
@@ -123,9 +115,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_PERCENT'] = `${arg1}`
       process.env['INPUT_FAILED_THRESHOLD_PERCENT'] = `${arg2}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-1.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-1.mock.xml')
       expect(res.success).toBe(result1)
     }
   )
@@ -135,9 +125,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_PERCENT'] = `${arg1}`
       process.env['INPUT_FAILED_THRESHOLD_PERCENT'] = `${arg2}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-2.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-2.mock.xml')
       expect(res.success).toBe(result2)
     }
   )
@@ -147,9 +135,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_PERCENT'] = `${arg1}`
       process.env['INPUT_FAILED_THRESHOLD_PERCENT'] = `${arg2}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-3.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-3.mock.xml')
       expect(res.success).toBe(result3)
     }
   )
@@ -159,9 +145,7 @@ describe('Results Test', () => {
     async (arg1, arg2, arg3, arg4, result1, result2, result3, result4) => {
       process.env['INPUT_SKIPPED_THRESHOLD_PERCENT'] = `${arg1}`
       process.env['INPUT_FAILED_THRESHOLD_PERCENT'] = `${arg2}`
-      const res = await getResults(
-        '__tests__/testng-results-summary-4.mock.xml'
-      )
+      const res = await getResults('__tests__/testng-results-summary-4.mock.xml')
       expect(res.success).toBe(result4)
     }
   )

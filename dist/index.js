@@ -545,6 +545,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.run = void 0;
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 const results_1 = __webpack_require__(550);
@@ -554,17 +555,14 @@ function run() {
         try {
             const testngResultsPath = core.getInput('testng_results');
             const results = yield results_1.getResults(testngResultsPath);
-            const commitStatusState = results.success
-                ? status_1.StatusState.GOOD
-                : status_1.StatusState.FAIL;
-            let sha = github.context.sha;
-            if (github.context.eventName === 'pull_request') {
-                const PullRequestPayload = github.context
-                    .payload;
-                sha = PullRequestPayload.pull_request.head.sha;
-            }
-            const skipStatus = (core.getInput('skip_gihub_status_update') == "true");
+            const commitStatusState = results.success ? status_1.StatusState.GOOD : status_1.StatusState.FAIL;
+            const skipStatus = core.getInput('skip_gihub_status_update') == 'true';
             if (!skipStatus) {
+                let sha = github.context.sha;
+                if (github.context.eventName === 'pull_request') {
+                    const PullRequestPayload = github.context.payload;
+                    sha = PullRequestPayload.pull_request.head.sha;
+                }
                 const commitStatus = {
                     owner: github.context.repo.owner,
                     repo: github.context.repo.repo,
@@ -590,7 +588,11 @@ function run() {
         }
     });
 }
-run();
+exports.run = run;
+// Don't auto-execute in the test environment
+if (process.env['NODE_ENV'] !== 'test') {
+    run();
+}
 
 
 /***/ }),
@@ -5079,20 +5081,12 @@ function getResults(resultsPath) {
                 let successState = false;
                 let failedTestStatePasses = false;
                 let skippedTestStatePasses = false;
-                if (failedThresholdNumber +
-                    skippedThresholdNumber +
-                    failedThresholdPercent +
-                    skippedThresholdPercent >
-                    0) {
-                    if ((failedThresholdNumber > 0 &&
-                        result.failed <= failedThresholdNumber) ||
-                        (failedThresholdPercent >= 0 &&
-                            (result.failed / result.total) * 100 <= failedThresholdPercent))
+                if (failedThresholdNumber + skippedThresholdNumber + failedThresholdPercent + skippedThresholdPercent > 0) {
+                    if ((failedThresholdNumber > 0 && result.failed <= failedThresholdNumber) ||
+                        (failedThresholdPercent >= 0 && (result.failed / result.total) * 100 <= failedThresholdPercent))
                         failedTestStatePasses = true;
-                    if ((skippedThresholdNumber > 0 &&
-                        result.skipped <= skippedThresholdNumber) ||
-                        (skippedThresholdPercent >= 0 &&
-                            (result.skipped / result.total) * 100 <= skippedThresholdPercent))
+                    if ((skippedThresholdNumber > 0 && result.skipped <= skippedThresholdNumber) ||
+                        (skippedThresholdPercent >= 0 && (result.skipped / result.total) * 100 <= skippedThresholdPercent))
                         skippedTestStatePasses = true;
                     successState = failedTestStatePasses && skippedTestStatePasses;
                     core.debug(`Skipped #:${skippedThresholdNumber}, Failed #:${failedThresholdNumber}, Skipped percent:${skippedThresholdPercent}, Failed percent:${failedThresholdPercent} `);
@@ -5100,7 +5094,7 @@ function getResults(resultsPath) {
                 }
                 else {
                     successState = result.failed != 0 ? false : true;
-                    core.debug(`successState<${successState}>, failed:${result.failed} `);
+                    core.debug(`successState<${successState}>, failed:${result.failed}`);
                 }
                 const results = {
                     skipped: result.skipped,
@@ -8432,10 +8426,11 @@ function setStatus(status) {
                 const myToken = core.getInput('token');
                 const octokit = github.getOctokit(myToken);
                 core.debug(status);
-                octokit.repos
-                    .createCommitStatus(status)
-                    .then(response => core.debug(`GitHub Commit Status Response State: ${response.data.state}`));
-                resolve(true);
+                octokit.repos.createCommitStatus(status).then(response => {
+                    core.debug(`GitHub Commit Status Response State: ${response.data.state}`);
+                    core.debug(JSON.stringify(response));
+                    resolve(true);
+                });
             }
             catch (err) {
                 core.error(err);

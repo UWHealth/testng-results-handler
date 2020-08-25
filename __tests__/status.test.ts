@@ -17,7 +17,6 @@ beforeEach(() => {
   github.context.payload = {
     state: 'success'
   } as WebhookPayload
-
 })
 
 afterEach(() => {
@@ -28,7 +27,6 @@ afterEach(() => {
 describe('GitHub Status', () => {
   // test set with a 500 ms timeout to so the Nock API mock fails quickly, so no real network call is being made.
   test('GitHub Status Set Correctly', async () => {
-
     const mockRepoData = {
       owner: 'UWHealth',
       repo: 'testng-results-handler',
@@ -43,17 +41,15 @@ describe('GitHub Status', () => {
     }
 
     nock('https://api.github.com')
-      .post(
-        `/repos/${mockRepoData.owner}/${mockRepoData.repo}/statuses/${mockRepoData.sha}`, mockBodyData
-      ).matchHeader('authorization', `token ${core.getInput('token')}`)
+      .post(`/repos/${mockRepoData.owner}/${mockRepoData.repo}/statuses/${mockRepoData.sha}`, mockBodyData)
+      .matchHeader('authorization', `token ${core.getInput('token')}`)
       .reply(200, github.context.payload)
 
-    const conclusion = await setStatus(Object.assign(mockRepoData, mockBodyData)).catch((err) => { console.error(err) })
+    const conclusion = await setStatus(Object.assign(mockRepoData, mockBodyData)).catch(err => {
+      console.error(err)
+    })
 
     expect(conclusion).toEqual(true)
     console.log(`GitHub Status Set Correctly Conclusion: ${conclusion}`)
-
   }, 500)
-
 })
-

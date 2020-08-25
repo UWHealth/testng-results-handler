@@ -1,9 +1,9 @@
 {
   "name": "testng-results-handler-action",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Handle the results of TestNG",
-  "main": "lib/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
@@ -13,9 +13,13 @@
     "test": "jest",
     "all": "npm run build && npm run format && npm run lint && npm run pack && npm test"
   },
+  "bugs": {
+      "url": "https://github.com/UWHealth/testng-results-handler/issues"
+    },
+  "homepage": "https://github.com/UWHealth/testng-results-handler#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/UWHealth/testng-results-handler.git"
   },
   "keywords": [
     "actions",
