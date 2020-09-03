@@ -1,23 +1,37 @@
 name: "build-test"
 on: # rebuild any PRs and main branch changes
   pull_request:
+  workflow_dispatch:
   push:
     branches:
       - master
       - 'releases/*'
+      - develop
 
 jobs:
-  build: # make sure build/ci work properly
+  test-build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - run: |
         npm install
         npm run all
-  test: # make sure the action works on a clean machine without building
+      env:
+        INPUT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+  trial-run: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: ./
-      with: 
-        milliseconds: 1000
+      with:
+        testng_results: __tests__/testng-results.mock.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        status_url: https://app.saucelabs.com/dashboard/tests/vdc
+        failed_threshold_percent: 10
+        skipped_threshold_percent: 20
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: testng-results-xml
+        path: ${{ github.workspace }}/__tests__/testng-results.mock.xml

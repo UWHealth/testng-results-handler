@@ -1,101 +1,133 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# TestNG Results Handler
 
-# Create a JavaScript Action using TypeScript
+![build-test](https://github.com/UWHealth/testng-results-handler/workflows/build-test/badge.svg?branch=master)
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+This action does the following:
 
-This template includes compilication support, tests, a validation workflow, publishing, and versioning guidance.  
+1. Read a standard [testng results report xml file](https://testng.org/doc/documentation-main.html#logging-xml-reports), and extract the results summary
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+2. Set a successful GitHub Commit Status with the results.
 
-## Create an action from this template
+## Inputs
 
-Click the `Use this Template` and provide the new repo details for your action
+### `testng_results`
 
-## Code in Master
+**Required**. Path relative to the root for the TestNG results. Default `"testng-results.xml"`.
 
-Install the dependencies  
-```bash
-$ npm install
-```
+### `token`
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run pack
-```
+**Required**. The token provided by GitHub actions via secrets.GITHUB_TOKEN. Default _none_.
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+### `status_url`
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+_Optional_. URL to display alongside the Github Commit Status. Default _none_.
 
-...
-```
+### `skipped_threshold_number`
 
-## Change action.yml
+_Optional_. The number of skipped tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Takes presidenc over skipped_threshold_percent. Default '0'.
 
-The action.yml contains defines the inputs and output for your action.
+### `skipped_threshold_percent`
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+_Optional_. The percentage of skipped tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Default '0'.
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
+### `failed_threshold_number`
 
-## Change the Code
+_Optional_. The number of failed tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY failed test indicates failure. Takes presidence over failed_threshold_percent. Default: '0'.
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
+### `failed_threshold_percent`
 
-```javascript
-import * as core from '@actions/core';
-...
+_Optional_. The percentage of failed tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY failed test indicates failure. Default: '0'.
 
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
+### `skip_gihub_status_update`
 
-run()
-```
+_Optional_. Skip the github status update that include the TestNG results. Only string value of "true" will disable. Useful during testing. Default: 'false'.
 
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
+## Outputs
 
-## Publish to a distribution branch
+No outputs.
 
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run pack
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml)])
+## Example usage
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+  - uses: UWHealth/testng-results-handler@v1.0.0
+    with:
+      testng_results: __tests__/testng-results.xml
+      token: ${{ secrets.GITHUB_TOKEN }}
+      status_url: https://accounts.saucelabs.com/am/XUI/#login/
+      failed_threshold_percent: 2
+      skipped_threshold_percent: 20
 ```
 
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
+Appearance in the Pull Request GUI:
 
-## Usage:
+![Pull Request Image Example](pr_checks.png)
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+## Development
+
+Install the dependencies
+
+```bash
+npm install
+```
+
+Build the typescript, lint, format and package it for distribution
+
+```bash
+npm run all
+# which is short for
+npm run build && npm run format && npm run lint && npm run pack && npm test
+```
+
+Running the tests separately. Test simply calls the TypeScript transpiled JavaScript with mock information.
+
+```bash
+$ npm test
+ PASS  __tests__/status.test.ts
+  GitHub Status
+    √ GitHub Status Set Correctly (91 ms)
+
+  console.log
+    GitHub Status Set Correctly Conclusion: true
+
+      at __tests__/status.test.ts:54:13
+
+ PASS  __tests__/main.test.ts
+  Build and run Tests
+    √ Test the build for successful execution. (204 ms)
+    √ Test run console.log for expected message. (27 ms)
+    √ Test core debug for expected messages. (12 ms)
+
+  console.log
+    Failed: 13
+
+      at __tests__/results.test.ts:41:13
+
+  console.log
+    Github status with TestNG results skipped. Input(skip_gihub_status_update): true
+
+      at Object.<anonymous> (__tests__/main.test.ts:27:15)
+
+ PASS  __tests__/results.test.ts
+  Results Test
+    √ Default inputs (81 ms)
+    √ Total Expected 231 (10 ms)
+    √ Passed Expected 206 (5 ms)
+    √ Failed Expected 13 (4 ms)
+    √ Ingnored Expected 3 (3 ms)
+    √ Skipped Expected 0 (3 ms)
+    √ given 0, 0, *0*, *0* as args, return *true* false true false (5 ms)
+    √ given 0, 0, *4*, *0* as args, return *true* false false false (1 ms)
+    √ given 0, 0, *6*, *0* as args, return *true* false true false
+    √ given 0, 0, *0*, *10* as args, return *true* false false false
+    √ given 0, 0, *0*, *14* as args, return *true* true false false (1 ms)
+# skipped results
+    √ given *1*, *6*, 0, 0 as args, return true true false *false* (1 ms)
+    √ given *3*, *4*, 0, 0 as args, return true false true *false*
+    √ given *3*, *6*, 0, 0 as args, return true true true *true* (1 ms)
+
+Test Suites: 3 passed, 3 total
+Tests:       82 passed, 82 total
+Snapshots:   0 total
+Time:        2.437 s, estimated 3 s
+Ran all test suites.
+```

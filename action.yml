@@ -1,10 +1,37 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Handle the results of TestNG'
+description: 'Read the XML results from TestNG, set some informational statuses and archive the results.'
+author: 'UWHealth'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  token:
+    required: true
+    description: The token provided by GitHub actions via secrets.GITHUB_TOKEN
+  testng_results:
+    description: 'Path relative to the root for the TestNG results'
+    default: 'testng-results.xml'
+    required: true
+  status_url:
+    description: 'URL to display alongside the Github Commit Status'
+    required: false
+  skipped_threshold_number:
+    description: 'The number of skipped tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Takes presidenc over skipped_threshold_percent'
+    default: '0'
+    required: false
+  skipped_threshold_percent:
+    description: 'The percentage of skipped tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY skipped test indicates failure'
+    default: '0'
+    required: false
+  failed_threshold_number:
+    description: 'The number of failed tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY failed test indicates failure. Takes presidence over failed_threshold_percent'
+    default: '0'
+    required: false
+  failed_threshold_percent:
+    description: 'The percentage of failed tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY failed test indicates failure'
+    default: '0'
+    required: false
+  skip_gihub_status_update:
+    description: 'Skip the github status update that include the TestNG results. Only string value of "true" will disable. Useful during testing.'
+    required: false
+    default: 'false'
 runs:
   using: 'node12'
   main: 'dist/index.js'
