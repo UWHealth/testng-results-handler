@@ -28,6 +28,10 @@ inputs:
     description: 'The percentage of failed tests in simple numeric form with % symbol (example: 10%) above which indicates failure. If nothing is supplied ANY failed test indicates failure'
     default: '0'
     required: false
+  skip_gihub_status_update:
+    description: 'Skip the github status update that include the TestNG results. Only string value of "true" will disable. Useful during testing.'
+    required: false
+    default: 'false'
 runs:
   using: 'node12'
   main: 'dist/index.js'
