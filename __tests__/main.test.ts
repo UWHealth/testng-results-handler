@@ -8,6 +8,7 @@ function setInputs(): boolean {
   process.env['INPUT_SKIP_GIHUB_STATUS_UPDATE'] = 'true'
   process.env['INPUT_TESTNG_RESULTS'] = '__tests__/testng-results.mock.xml'
   process.env['INPUT_STATUS_URL'] = 'https://github.com'
+  process.env['INPUT_STATUS_LABEL'] = 'Custom Label'
   process.env['GITHUB_REPOSITORY'] = 'UWHealth/testng-results-handler'
   return true
 }

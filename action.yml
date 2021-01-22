@@ -12,6 +12,10 @@ inputs:
   status_url:
     description: 'URL to display alongside the Github Commit Status'
     required: false
+  status_label:
+    description: 'Custom label for the Github Commit Status'
+    default: End-Test Results
+    required: false
   skipped_threshold_number:
     description: 'The number of skipped tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Takes presidenc over skipped_threshold_percent'
     default: '0'

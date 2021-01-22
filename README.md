@@ -22,6 +22,10 @@ This action does the following:
 
 _Optional_. URL to display alongside the Github Commit Status. Default _none_.
 
+### `status_label`
+
+_Optional_. URL to display alongside the Github Commit Status. Default _End-Test Results_.
+
 ### `skipped_threshold_number`
 
 _Optional_. The number of skipped tests in simple numeric form (example: 20) above which indicates failure. If nothing is supplied ANY skipped test indicates failure. Takes presidenc over skipped_threshold_percent. Default '0'.
