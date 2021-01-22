@@ -36,8 +36,8 @@ describe('GitHub Status', () => {
     const mockBodyData = {
       state: 'success',
       target_url: core.getInput('status_url') || '',
-      description: `Pass: 10 + Fail: 0 + Ignore: 1 + Skip: 1 = Total: 12`,
-      context: `End-to-End Test Results.`
+      description: `(√):10 + (×):0 + I:1 + S:1 = Tot:12`,
+      context: `End-Test Results`
     }
 
     nock('https://api.github.com')

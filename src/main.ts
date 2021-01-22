@@ -13,6 +13,8 @@ export async function run(): Promise<void> {
 
     const skipStatus = core.getInput('skip_gihub_status_update') == 'true'
 
+    const statusLabel: string = core.getInput('status_label')
+
     if (!skipStatus) {
       let sha = github.context.sha
       if (github.context.eventName === 'pull_request') {
@@ -26,10 +28,10 @@ export async function run(): Promise<void> {
         sha: sha,
         state: commitStatusState,
         target_url: core.getInput('status_url') || '',
-        description: `${process.env.LOCAL || ''}Pass: ${results.passed} + Fail: ${results.failed} + Ignore: ${
+        description: `${process.env.LOCAL || ''}(√):${results.passed} + (×):${results.failed} + I:${
           results.ignored
-        } + Skip: ${results.skipped} = Total: ${results.total}`,
-        context: `${process.env.TEST || ''}End-to-End Test Results.`
+        } + S:${results.skipped} = Tot:${results.total}`,
+        context: `${process.env.TEST || ''}${statusLabel}`
       }
 
       const result = await setStatus(commitStatus)
