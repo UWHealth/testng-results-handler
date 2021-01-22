@@ -30,6 +30,7 @@ jobs:
         status_url: https://app.saucelabs.com/dashboard/tests/vdc
         failed_threshold_percent: 10
         skipped_threshold_percent: 20
+        status_label: Custom Label
 
     - uses: actions/upload-artifact@v2
       with:
