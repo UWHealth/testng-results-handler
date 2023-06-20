@@ -58,8 +58,7 @@ function run() {
                 let sha = github.context.sha;
                 if (github.context.eventName === 'pull_request') {
                     const PullRequestPayload = github.context.payload;
-                    //EventPayloads.WebhookPayloadPullRequest
-                    sha = (_b = (_a = PullRequestPayload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha; //.pull_request.head.sha
+                    sha = (_b = (_a = PullRequestPayload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha;
                 }
                 const commitStatus = {
                     owner: github.context.repo.owner,

@@ -24,7 +24,7 @@ describe('Build and run Tests', () => {
     const options: cp.ExecSyncOptions = {}
     options.env = process.env
     try {
-      console.log(cp.execSync(`node ${ip}`, options).toString())
+      console.log(cp.spawnSync(`node ${ip}`, options).toString())
     } catch (err: any) {
       core.error(err.message)
       core.error(err.stack)
