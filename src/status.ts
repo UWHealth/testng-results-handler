@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
@@ -25,12 +26,12 @@ export async function setStatus(status: any): Promise<boolean> {
       const myToken: string = core.getInput('token')
       const octokit = github.getOctokit(myToken)
       core.debug(status)
-      octokit.repos.createCommitStatus(status).then(response => {
+      octokit.rest.repos.createCommitStatus(status).then(response => {
         core.debug(`GitHub Commit Status Response State: ${response.data.state}`)
         core.debug(JSON.stringify(response))
         resolve(true)
       })
-    } catch (err) {
+    } catch (err: any) {
       core.error(err)
       resolve(false)
     }

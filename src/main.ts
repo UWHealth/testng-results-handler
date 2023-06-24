@@ -1,6 +1,6 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import Webhooks from '@octokit/webhooks'
 import { getResults, testngResults } from './results'
 import { CommitStatus, setStatus, StatusState } from './status'
 
@@ -18,8 +18,8 @@ export async function run(): Promise<void> {
     if (!skipStatus) {
       let sha = github.context.sha
       if (github.context.eventName === 'pull_request') {
-        const PullRequestPayload = github.context.payload as Webhooks.EventPayloads.WebhookPayloadPullRequest
-        sha = PullRequestPayload.pull_request.head.sha
+        const PullRequestPayload = github.context.payload
+        sha = PullRequestPayload.pull_request?.head?.sha
       }
 
       const commitStatus: CommitStatus = {
@@ -42,7 +42,7 @@ export async function run(): Promise<void> {
     } else {
       console.log(`Github status with TestNG results skipped. Input(skip_gihub_status_update): ${skipStatus}`)
     }
-  } catch (error) {
+  } catch (error: any) {
     core.error(error)
     core.setFailed(`Failinging worklfow: ${error.message}`)
   }
