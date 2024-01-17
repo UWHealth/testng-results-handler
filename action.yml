@@ -1,6 +1,9 @@
 name: 'Handle the results of TestNG'
 description: 'Read the XML results from TestNG, set some informational statuses and archive the results.'
 author: 'UWHealth'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
 inputs:
   token:
     required: true
@@ -36,6 +39,4 @@ inputs:
     description: 'Skip the github status update that include the TestNG results. Only string value of "true" will disable. Useful during testing.'
     required: false
     default: 'false'
-runs:
-  using: 'node12'
-  main: 'dist/index.js'
+
