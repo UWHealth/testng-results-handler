@@ -12,7 +12,7 @@ jobs:
   test-build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: |
         npm install
         npm run all
@@ -22,7 +22,7 @@ jobs:
   trial-run: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: ./
       with:
         testng_results: __tests__/testng-results.mock.xml
@@ -32,7 +32,7 @@ jobs:
         skipped_threshold_percent: 20
         status_label: Custom Label
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: testng-results-xml
         path: ${{ github.workspace }}/__tests__/testng-results.mock.xml
