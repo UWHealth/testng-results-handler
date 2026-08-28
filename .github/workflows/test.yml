@@ -32,7 +32,7 @@ jobs:
         skipped_threshold_percent: 20
         status_label: Custom Label
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: testng-results-xml
         path: ${{ github.workspace }}/__tests__/testng-results.mock.xml
