@@ -1,0 +1,20 @@
+name: Check actions.properties version
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  pre-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Pre check actions.properties version
+        uses: UWHealth/gha-pre-check@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci"
+    open-pull-requests-limit: 2
+    groups:
+      uwh-gha-updates:
+        applies-to: version-updates
+        patterns:
+          - "UWHealth/**"
+          - "uwhealth/**"
+        update-types:
+          - "major"
+          - "patch"
+          - "minor"
+
+  - package-ecosystem: "npm"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "production"      
+    directory: "/"
+    open-pull-requests-limit: 0   # disables version updates; security updates still fire
+    labels:
+      - "dependencies"
+      - "npm"
+      - "security"

@@ -1,0 +1,30 @@
+name: Create Release on merge into main
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Get release
+        id: pre-check
+        uses: UWHealth/gha-pre-check@v2
+        with:
+          get_version_only: 'true'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set GH Release
+        uses: UWHealth/gha-release-workflow@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_user_email: 332147+UWHealthRepoBot[bot]@users.noreply.github.com
+          github_username: UW Health Repo Bot[bot]
+          releaseVersion: ${{ steps.pre-check.outputs.new_version }}
